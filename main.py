@@ -28,7 +28,6 @@ def extract_text_from_pdf(file, pages_per_chunk=8):
         handle_error(f"Error opening PDF file: {e}")
         return []
 
-
 # Function to create an OpenAI embedding
 def create_openai_embedding(text, max_words=700):
     if not text:
@@ -63,7 +62,7 @@ def query_annoy(index, question_embedding, top_k=3):
         return query_results
     except Exception as e:
         handle_error(f"Error querying Annoy: {e}")
-        return [], []  # Return two empty lists instead of a dictionary with a single key
+        return [], []
 
 # Function to process query results
 def process_query_results(query_results):
@@ -151,7 +150,8 @@ def main():
         user_input = st.text_input("Type your question here...")
         submit_button = st.form_submit_button("Submit")
     
-
+        interpreted_answer = None  # Initialize variable
+    
         if submit_button:
             st.session_state.chat_history.append({"role": "user", "content": user_input})
 
@@ -162,10 +162,9 @@ def main():
                 answer = generate_answer(context_data, user_input)
                 interpreted_answer = interpret_answer(answer)
 
-            st.session_state.chat_history.append({"role": "assistant", "content": interpreted_answer})
-                
             # Append the full answer to the chat history
             st.session_state.chat_history.append({"role": "assistant", "content": interpreted_answer})
 
 if __name__ == "__main__":
     main()
+
