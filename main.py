@@ -17,7 +17,7 @@ def extract_text_from_pdf(file, pages_per_chunk=8):
     try:
         loader = UnstructuredAPIFileLoader(
             file_path=file,
-            api_key="YOUR_API_KEY_HERE",
+            api_key=st.secrets["unstructured_api"]["key"],
             strategy="fast",
             mode="elements"
         )
