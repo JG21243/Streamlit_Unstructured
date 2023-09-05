@@ -116,6 +116,10 @@ def main():
     st.title("PDF Question Answering")
     st.markdown("**Use AI to find answers to your questions from PDF documents.**")
     
+    # Initialize 'annoy_index' if it's not already in session state
+    if 'annoy_index' not in st.session_state:
+        st.session_state.annoy_index = setup_annoy()
+    
     # Sidebar for file upload
     with st.sidebar:
         st.subheader("Controls")
@@ -127,9 +131,6 @@ def main():
         with st.spinner('Extracting text from PDF...'):
             st.session_state.text_chunks = extract_text_from_pdf(file)
         
-        with st.spinner('Setting up Annoy index...'):
-            st.session_state.annoy_index = setup_annoy()
-
         # Creating embeddings and upserting to Annoy
         for i, text in enumerate(st.session_state.text_chunks):
             if text:
@@ -145,9 +146,6 @@ def main():
         if "role" in chat_message:
             with st.chat_message(chat_message["role"]):
                 st.markdown(chat_message["content"])
-        else:
-            st.warning("Role key not found in chat_message")
-
     
     with st.form("chat_form"):
         user_input = st.text_input("Type your question here...")
@@ -171,4 +169,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
