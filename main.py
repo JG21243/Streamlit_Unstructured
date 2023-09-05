@@ -120,9 +120,10 @@ def main():
     st.title("PDF Question Answering")
     st.markdown("**Use AI to find answers to your questions from PDF documents.**")
     
-    # Initialize 'annoy_index' if it's not already in session state
+    # Initialize 'annoy_index' and 'index_built' if they're not already in session state
     if 'annoy_index' not in st.session_state:
         st.session_state.annoy_index = setup_annoy()
+        st.session_state.index_built = False  # Initialize index_built here
     
     # Sidebar for file upload
     with st.sidebar:
