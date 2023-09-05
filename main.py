@@ -5,7 +5,7 @@ from reportlab.lib.pagesizes import letter
 from reportlab.pdfgen import canvas
 from langchain.document_loaders import UnstructuredAPIFileLoader  # Import the UnstructuredAPIFileLoader
 
-openai.api_key = "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"
+openai.api_key = st.secrets.openai_key
 
 text_storage = {}
 
