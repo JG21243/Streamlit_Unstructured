@@ -1,0 +1,6 @@
+openai
+annoy
+streamlit
+reportlab
+langchain
+unstructured
