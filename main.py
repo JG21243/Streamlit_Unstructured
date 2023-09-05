@@ -28,6 +28,11 @@ def extract_text_from_pdf(file, pages_per_chunk=8):
         handle_error(f"Error opening PDF file: {e}")
         return []
 
+# Initialize 'annoy_index' and 'index_built' if they're not already in session state
+if 'annoy_index' not in st.session_state:
+    st.session_state.annoy_index = setup_annoy()
+    st.session_state.index_built = False  # Add this line to track if the index has been built
+
 # Function to create an OpenAI embedding
 def create_openai_embedding(text, max_words=700):
     if not text:
@@ -136,8 +141,11 @@ def main():
                 embedding = create_openai_embedding(text)
                 if embedding is not None:
                     upsert_to_annoy(st.session_state.annoy_index, i, embedding, text)
-        st.session_state.annoy_index.build(20)
         
+        if not st.session_state.index_built:  # Check if the index has already been built
+            st.session_state.annoy_index.build(20)
+            st.session_state.index_built = True  # Mark the index as built
+    
         st.success("Setup complete!")
     
     st.subheader("Chat History")
