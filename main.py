@@ -125,6 +125,7 @@ def main():
         st.session_state.annoy_index = setup_annoy()
         st.session_state.index_built = False  # Initialize index_built here
     
+    
     # Sidebar for file upload
     with st.sidebar:
         st.subheader("Controls")
