@@ -27,6 +27,10 @@ def extract_text_from_pdf(file, pages_per_chunk=8):
     except Exception as e:
         handle_error(f"Error opening PDF file: {e}")
         return []
+# Function to setup Annoy index
+def setup_annoy(dimension=1536):
+    index = AnnoyIndex(dimension, 'angular')
+    return index
 
 # Initialize 'annoy_index' and 'index_built' if they're not already in session state
 if 'annoy_index' not in st.session_state:
@@ -106,11 +110,6 @@ def generate_answer(context_data, user_question):
 # Function to interpret an answer
 def interpret_answer(answer):
     return answer
-
-# Function to setup Annoy index
-def setup_annoy(dimension=1536):
-    index = AnnoyIndex(dimension, 'angular')
-    return index
 
 # Initialize chat history
 if "chat_history" not in st.session_state:
