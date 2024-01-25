@@ -57,12 +57,16 @@ The application offers a simple and intuitive Streamlit interface for uploading 
 
 ## **License**
 
-Specify your project's license here.
+MIT LICENSE 
 
-## **Contributors**
-
-List the contributors to this project if any.
 
 ## **Acknowledgements**
 
-Acknowledge the resources, libraries, or individuals that contributed to the project.
+This project leverages several key technologies and platforms:
+
+-OpenAI (openai.com): Their language models and API provide the core AI-driven question-answering capabilities in our application.
+Streamlit Community (streamlit.io): For resources that support the development of our interactive web interface.
+
+-Annoy (Approximate Nearest Neighbors Oh Yeah) (github.com/spotify/annoy): Their library enhances our application's text embedding search efficiency.
+
+-LangChain (github.com/LangChain/langchain):  Lanchain's tools and framework aids in document loading and text processing, integral to PDF analysis.
