@@ -25,7 +25,6 @@ The "PDF Question Answering" project provides a Streamlit-based interface where 
 Install the required packages using:
 
 ```bash
-bashCopy code
 pip install openai annoy streamlit langchain.document_loaders logging
 ```
 
