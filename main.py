@@ -1,5 +1,7 @@
 import logging
-import openai
+from openai import OpenAI
+
+client = OpenAI(api_key=st.secrets.openai_key)
 from annoy import AnnoyIndex
 import streamlit as st
 from langchain.document_loaders import UnstructuredAPIFileLoader
@@ -8,7 +10,6 @@ from langchain.document_loaders import UnstructuredAPIFileLoader
 logging.basicConfig(level=logging.INFO)
 
 # Initialize OpenAI API key
-openai.api_key = st.secrets.openai_key
 
 # Initialize text storage
 text_storage = {}
@@ -51,11 +52,9 @@ def create_openai_embedding(text, max_words=700):
         chunks = [' '.join(words[i:i + max_words]) for i in range(0, len(words), max_words)]
         embeddings = []
         for chunk in chunks:
-            response = openai.Embedding.create(
-                model="text-embedding-ada-002",
-                input=chunk
-            )
-            embeddings.append(response["data"][0]["embedding"])
+            response = client.embeddings.create(model="text-embedding-ada-002",
+            input=chunk)
+            embeddings.append(response.data[0].embedding)
         embedding = [sum(x) / len(x) for x in zip(*embeddings)]
         return embedding
     except Exception as e:
@@ -88,24 +87,22 @@ def process_query_results(query_results):
 def generate_answer(context_data, user_question):
     prompt = f"Context: {', '.join(context_data)}\nQuestion: {user_question}\nAnswer:"
     try:
-        response = openai.ChatCompletion.create(
-            model="gpt-3.5-turbo-16k",
-            messages=[
-                {
-                    "role": "system",
-                    "content": "You are a helpful assistant."
-                },
-                {
-                    "role": "user",
-                    "content": prompt
-                }
-            ],
-            max_tokens=2000,
-            n=1,
-            stop=None,
-            temperature=0.0,
-        )
-        return response.choices[0].message['content'].strip()
+        response = client.chat.completions.create(model="gpt-3.5-turbo-16k",
+        messages=[
+            {
+                "role": "system",
+                "content": "You are a helpful assistant."
+            },
+            {
+                "role": "user",
+                "content": prompt
+            }
+        ],
+        max_tokens=2000,
+        n=1,
+        stop=None,
+        temperature=0.0)
+        return response.choices[0].message.content.strip()
     except Exception as e:
         handle_error(f"Error generating answer: {e}")
         return None
