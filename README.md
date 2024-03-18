@@ -1,4 +1,4 @@
-# **README for Python Project: PDF Question Answering with Streamlit and OpenAI**
+# **PDF Question Answering with Streamlit and OpenAI**
 
 ## **Project Overview**
 
